@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+    A classe jogador foi criada para setarmos as variáveis inicialmente, criando para cada uma os getters e setters. Além disso, foi criado o Construtor Jogador para salvarmos as informações
+    e utilizarmos nas outras classes. O nome de cada variável é subjetivo, sendo fácil de compreender a sua razão.
  */
 package Modelo;
 

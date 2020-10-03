@@ -5,16 +5,24 @@
  */
 package Visualizador;
 
+import Controlador.ControleInformacoes;
+import Modelo.Jogador;
+import java.io.IOException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Yuri
  */
 public class PainelJogadora extends javax.swing.JFrame {
 
+    protected ControleInformacoes tabela; 
     /**
      * Creates new form PainelJogadora
      */
     public PainelJogadora() {
+        tabela = new ControleInformacoes();
         initComponents();
     }
 
@@ -35,16 +43,15 @@ public class PainelJogadora extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         ResultadosMaria.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "Jogo", "Placar", "Mínimo Temporada", "Máximo Temporada", "Quebra Recorde Min.", "Quebra Recorde Max."
@@ -53,9 +60,16 @@ public class PainelJogadora extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         ResultadosMaria.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
@@ -99,13 +113,41 @@ public class PainelJogadora extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+   
+    
     private void novoJogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_novoJogoActionPerformed
         // TODO add your handling code here:
-        NovoJogo tela2 = new NovoJogo();
+        NovoJogo tela2 = new NovoJogo(tabela, this);
         tela2.setVisible(true);
     }//GEN-LAST:event_novoJogoActionPerformed
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        try {
+            tabela.gravaInformacoes("dados/dados.txt");
+        } catch (IOException ex) {
+            
+        }
+    }//GEN-LAST:event_formWindowClosing
+    
+    public void atualizarTabela(){ /* Método que atualiza a informação na tabela, com base no que temos no construtor. */
+        Jogador jogador = tabela.retornarUltimoJogo();
+        if (jogador instanceof Jogador){
+            DefaultTableModel model =(DefaultTableModel) ResultadosMaria.getModel();
+            model.addRow(new Object[]{jogador.getJogo(),jogador.getPlacar(),jogador.getPontuacaoMinima(), jogador.getPontuacaoMaxima(), jogador.getQtdRecordeMin(), jogador.getQtdRecordeMax()});         
+        }        
+    }
+    
+    
+    public void carregarTabelaCompleta(){
+        for (int i = 0; i < tabela.jogos.size(); i++) {
+            Jogador jogador = tabela.jogos.get(i);
+            if (jogador instanceof Jogador){
+                DefaultTableModel model =(DefaultTableModel) ResultadosMaria.getModel();
+                model.addRow(new Object[]{jogador.getJogo(),jogador.getPlacar(),jogador.getPontuacaoMinima(), jogador.getPontuacaoMaxima(), jogador.getQtdRecordeMin(), jogador.getQtdRecordeMax()});         
+            }        
+        }
+        
+    }
     /**
      * @param args the command line arguments
      */
@@ -136,7 +178,15 @@ public class PainelJogadora extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PainelJogadora().setVisible(true);
+                
+                PainelJogadora tela = new PainelJogadora();
+                  try {
+                    tela.tabela.carregarArquivo("dados/dados.txt");
+                    tela.carregarTabelaCompleta();
+                } catch (IOException ex) {
+                    
+                }
+                tela.setVisible(true);
             }
         });
     }
