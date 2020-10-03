@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -18,6 +18,7 @@ public class NovoJogo extends javax.swing.JFrame {
     
     private Jogador jogo;
     private ControleInformacoes tabela;
+    private PainelJogadora tela;
     
     
     /**
@@ -25,13 +26,17 @@ public class NovoJogo extends javax.swing.JFrame {
      */
     public NovoJogo() {
         initComponents();
+        this.jogo = new Jogador("Maria", 0, 0, 0, 0);
+        this.tabela = new ControleInformacoes();
     }
-
-    public NovoJogo(ControleInformacoes tabela) {
-        this.jogo = new Jogador("Maria",0,0,0,0);
+    
+    public NovoJogo(ControleInformacoes tabela, PainelJogadora telaPrincipal) {
+        this.jogo = new Jogador("maria", 0, 0, 0, 0);
+        this.tela = telaPrincipal;
         this.tabela = tabela;
         initComponents();
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -77,6 +82,11 @@ public class NovoJogo extends javax.swing.JFrame {
         });
 
         salvarPontuacao.setText("Salvar");
+        salvarPontuacao.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                salvarPontuacaoMouseClicked(evt);
+            }
+        });
         salvarPontuacao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 salvarPontuacaoActionPerformed(evt);
@@ -84,6 +94,11 @@ public class NovoJogo extends javax.swing.JFrame {
         });
 
         cancelarPontuacao.setText("Cancelar");
+        cancelarPontuacao.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cancelarPontuacaoMouseClicked(evt);
+            }
+        });
         cancelarPontuacao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelarPontuacaoActionPerformed(evt);
@@ -138,56 +153,35 @@ public class NovoJogo extends javax.swing.JFrame {
 
     private void salvarPontuacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarPontuacaoActionPerformed
         // TODO add your handling code here:
-        int placarJogo = Integer.parseInt(resultadoJogo.getText());
-            if (placarJogo > 0 && placarJogo < 1000) {
-                jogo.setPlacar(placarJogo);
-                tabela.novoJogo(jogo);
-            } else {
-                    showMessageDialog(null, "Valor incorreto", "Error", ERROR_MESSAGE);
-                    }
-            this.dispose();
+
     }//GEN-LAST:event_salvarPontuacaoActionPerformed
 
     private void cancelarPontuacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarPontuacaoActionPerformed
         // TODO add your handling code here:
-        this.dispose();
+        jogo.setPlacar(-1);
     }//GEN-LAST:event_cancelarPontuacaoActionPerformed
+
+    private void salvarPontuacaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salvarPontuacaoMouseClicked
+        // TODO add your handling code here:
+        int placarJogo = Integer.parseInt(resultadoJogo.getText());
+        if (placarJogo > 0 && placarJogo < 1000) {
+            this.jogo.setPlacar(placarJogo);
+            this.tabela.novoJogo(jogo);
+            tela.atualizarTabela();
+            this.dispose();
+        } else {
+                showMessageDialog(null, "Valor incorreto", "Error", ERROR_MESSAGE);
+                }
+    }//GEN-LAST:event_salvarPontuacaoMouseClicked
+
+    private void cancelarPontuacaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelarPontuacaoMouseClicked
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_cancelarPontuacaoMouseClicked
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NovoJogo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NovoJogo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NovoJogo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NovoJogo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new NovoJogo().setVisible(true);
-            }
-        });
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelarPontuacao;
     private javax.swing.JLabel jLabel1;
