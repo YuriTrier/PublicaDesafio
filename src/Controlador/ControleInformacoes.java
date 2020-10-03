@@ -65,11 +65,15 @@ public void novoJogo(Jogador jogo){
     jogo.setJogo(++idUltimoJogo);
     }
  
+<<<<<<< HEAD
 /*
     gravaInformacoes é o responsável por salvar no arquivo de maneira configurada as informações. O diretório do arquivo está salvo na variável caminho, que foi iniciada em outra classe.
 */ 
 
 
+=======
+ 
+>>>>>>> 4d01e1fb9cc96e0b79ae1a54afdf5ffc6b8678bc
     public void gravaInformacoes(String caminho) throws IOException{
         FileWriter writer = new FileWriter(caminho);
         
@@ -80,12 +84,16 @@ public void novoJogo(Jogador jogo){
         }
         salvar.close(); 
     }
+<<<<<<< HEAD
 /*
     carregarArquivo busca as informações que foram salvas no arquivo definido pelo diretório setado na variável caminho. Com isto, setamos as informações em Jogo para definirmos na tabela, 
     posteriormente. Este Buffer carrega o que possui no arquivo, sendo necessário configurá-lo conforme o jeito que estamos salvando o arquivo.
     */
     
     
+=======
+
+>>>>>>> 4d01e1fb9cc96e0b79ae1a54afdf5ffc6b8678bc
     public void carregarArquivo(String caminho) throws FileNotFoundException, IOException{
     BufferedReader carregar = new BufferedReader(new FileReader(caminho));
         
