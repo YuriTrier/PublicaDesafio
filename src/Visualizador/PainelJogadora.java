@@ -129,7 +129,15 @@ public class PainelJogadora extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
     
+<<<<<<< HEAD
     public void atualizarTabela(){ /* Método que atualiza a informação na tabela, com base no que temos no construtor. */
+=======
+<<<<<<< HEAD
+    public void atualizarTabela(){ /* Método que atualiza a informação na tabela, com base no que temos no construtor. */
+=======
+    public void atualizarTabela(){
+>>>>>>> 4d01e1fb9cc96e0b79ae1a54afdf5ffc6b8678bc
+>>>>>>> 25e357f284f547ab2f49c75e8da78b466a1e70bd
         Jogador jogador = tabela.retornarUltimoJogo();
         if (jogador instanceof Jogador){
             DefaultTableModel model =(DefaultTableModel) ResultadosMaria.getModel();
